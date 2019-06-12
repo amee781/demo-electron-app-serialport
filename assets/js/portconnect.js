@@ -31,7 +31,8 @@ class Server {
       })
   
       this.parser.on('data', data => {
-        this.controller.store(data)
+        // this.controller.store(data)
+        console.log('Error: ', data)
       })
     }
   

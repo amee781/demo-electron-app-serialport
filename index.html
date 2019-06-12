@@ -9,173 +9,93 @@
     <link rel="stylesheet" href="assets/css/photon.min.css">
     <script src="assets/js/render.js" charset="utf-8"></script>
     <style>
-        .flex-container {
-            display: flex;
-            align-items: baseline;
-        }
-
-        html {
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-            font-size: 100%;
-        }
-
-        *,
-        *:before,
-        *:after {
-            box-sizing: inherit;
+        * {
             margin: 0;
             padding: 0;
-        }
-
-        .mid {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding-top: 10em;
-        }
-
-
-        /* Switch starts here */
-        .rocker {
-            display: inline-block;
             position: relative;
-            /*
-  SIZE OF SWITCH
-  ==============
-  All sizes are in em - therefore
-  changing the font-size here
-  will change the size of the switch.
-  See .rocker-small below as example.
-  */
-            font-size: 2em;
-            font-weight: bold;
-            text-align: center;
-            text-transform: uppercase;
-            color: #888;
-            width: 7em;
-            height: 4em;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        .b {
+            display: block;
+        }
+
+        .toggle {
+            /* position: absolute; */
+            /* padding: 100px; */
+            top: 30%;
+            left: 50%;
+            width: 60px;
+            height: 40px;
+            border-radius: 100px;
+            background-color: #ddd;
+            margin: -20px -40px;
             overflow: hidden;
-            border-bottom: 0.5em solid #eee;
+            box-shadow: inset 0 0 2px 1px rgba(0, 0, 0, .05);
         }
 
-        .rocker-small {
-            font-size: 0.75em;
-            /* Sizes the switch */
-            margin: 1em;
+        .lablename {
+            /* position: absolute; */
+            /* padding: 100px; */
+            top: 21%;
+            left: 55%;
+            /* width: 60px;
+            height: 40px; */
         }
 
-        .rocker::before {
-            content: "";
+        .check {
             position: absolute;
-            top: 0.5em;
+            display: block;
+            cursor: pointer;
+            top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 6;
+        }
+
+        .check:checked~.track {
+            box-shadow: inset 0 0 0 20px #4bd863;
+        }
+
+        .check:checked~.switch {
+            right: 2px;
+            left: 22px;
+            transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+            transition-property: left, right;
+            transition-delay: .05s, 0s;
+        }
+
+        .switch {
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            bottom: 2px;
+            right: 22px;
+            background-color: #fff;
+            border-radius: 36px;
+            z-index: 1;
+            transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+            transition-property: left, right;
+            transition-delay: 0s, .05s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+        }
+
+        .track {
+            position: absolute;
+            left: 0;
+            top: 0;
             right: 0;
             bottom: 0;
-            background-color: #999;
-            border: 0.5em solid #eee;
-            border-bottom: 0;
-        }
-
-        .rocker input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .switch-left,
-        .switch-right {
-            cursor: pointer;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 2.5em;
-            width: 3em;
-            transition: 0.2s;
-        }
-
-        .switch-left {
-            height: 2.4em;
-            width: 2.75em;
-            left: 0.85em;
-            bottom: 0.4em;
-            background-color: #ddd;
-            transform: rotate(15deg) skewX(15deg);
-        }
-
-        .switch-right {
-            right: 0.5em;
-            bottom: 0;
-            background-color: #bd5757;
-            color: #fff;
-        }
-
-        .switch-left::before,
-        .switch-right::before {
-            content: "";
-            position: absolute;
-            width: 0.4em;
-            height: 2.45em;
-            bottom: -0.45em;
-            background-color: #ccc;
-            transform: skewY(-65deg);
-        }
-
-        .switch-left::before {
-            left: -0.4em;
-        }
-
-        .switch-right::before {
-            right: -0.375em;
-            background-color: transparent;
-            transform: skewY(65deg);
-        }
-
-        input:checked+.switch-left {
-            background-color: #0084d0;
-            color: #fff;
-            bottom: 0px;
-            left: 0.5em;
-            height: 2.5em;
-            width: 3em;
-            transform: rotate(0deg) skewX(0deg);
-        }
-
-        input:checked+.switch-left::before {
-            background-color: transparent;
-            width: 3.0833em;
-        }
-
-        input:checked+.switch-left+.switch-right {
-            background-color: #ddd;
-            color: #888;
-            bottom: 0.4em;
-            right: 0.8em;
-            height: 2.4em;
-            width: 2.75em;
-            transform: rotate(-15deg) skewX(-15deg);
-        }
-
-        input:checked+.switch-left+.switch-right::before {
-            background-color: #ccc;
-        }
-
-        /* Keyboard Users */
-        input:focus+.switch-left {
-            color: #333;
-        }
-
-        input:checked:focus+.switch-left {
-            color: #fff;
-        }
-
-        input:focus+.switch-left+.switch-right {
-            color: #fff;
-        }
-
-        input:checked:focus+.switch-left+.switch-right {
-            color: #333;
+            transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+            box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .05);
+            border-radius: 40px;
         }
     </style>
 </head>
@@ -184,7 +104,7 @@
     <div class="window">
         <div class="window-content">
             <div class="pane-group">
-                <div class="pane-sm sidebar">
+                <!-- <div class="pane-sm sidebar">
                     <ul class="list-group" id="hardware-list">
                         <li class="list-group-header">
                             <input class="form-control" type="text" placeholder="Search for someone">
@@ -195,17 +115,36 @@
                             </div>
                         </li>
                     </ul>
-                </div>
+                </div> -->
                 <div class="pane">
                     <div id="console-detail">
-                        
+
                     </div>
-                    <div class="mid" id="sw-led">
-                        <label class="rocker">
-                            <input type="checkbox" id="led">
-                            <span class="switch-left">On</span>
-                            <span class="switch-right">Off</span>
-                        </label>
+                    <div class="toggle">
+                        <input type="checkbox" class="check" id="lamp1">
+                        <b class="b switch"></b>
+                        <b class="b track"></b>
+                    </div>
+                    <div class="lablename">
+                        <h1>Lamp1</h1>
+                    </div>
+
+                    <div class="toggle">
+                        <input type="checkbox" class="check" id="lamp2">
+                        <b class="b switch"></b>
+                        <b class="b track"></b>
+                    </div>
+                    <div class="lablename">
+                        <h1>Lamp2</h1>
+                    </div>
+
+                    <div class="toggle">
+                        <input type="checkbox" class="check" id="lamp3">
+                        <b class="b switch"></b>
+                        <b class="b track"></b>
+                    </div>
+                    <div class="lablename">
+                        <h1>Lamp3</h1>
                     </div>
                 </div>
             </div>

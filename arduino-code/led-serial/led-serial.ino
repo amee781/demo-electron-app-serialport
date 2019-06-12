@@ -8,12 +8,12 @@ void loop() {
   if (Serial.available() > 0) {
     
     char state = Serial.read();
-    if (state == 'H' || state == 'h') {
+    if (state == 'a' || state == 'a') {
       digitalWrite(LED_BUILTIN, HIGH);
       Serial.println("LED ON");
        localsate = "on";
     }
-    if (state == 'L' || state == 'l') {
+    if (state == 'b' || state == 'b') {
       digitalWrite(LED_BUILTIN, LOW);
       Serial.println("LED OFF");
        localsate = "off";
